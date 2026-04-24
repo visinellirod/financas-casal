@@ -5,6 +5,7 @@ import path from 'path'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  base: '/financas-casal/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -14,10 +15,10 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom'],
+          vendor:   ['react', 'react-dom', 'react-router-dom'],
           firebase: ['firebase/app', 'firebase/auth', 'firebase/firestore'],
-          charts: ['recharts'],
-          export: ['jspdf', 'jspdf-autotable', 'xlsx'],
+          charts:   ['recharts'],
+          export:   ['jspdf', 'jspdf-autotable', 'xlsx'],
         },
       },
     },

@@ -37,7 +37,7 @@ async function exportPDF(data: ReturnType<typeof buildReportData>) {
     headStyles: { fillColor: [34, 197, 94] },
   })
 
-  const finalY = (doc as jsPDF & { lastAutoTable: { finalY: number } }).lastAutoTable.finalY + 10
+  const finalY = (doc as unknown as { lastAutoTable: { finalY: number } }).lastAutoTable.finalY + 10
 
   if (data.gastosPorCategoria.length > 0) {
     autoTable(doc, {

@@ -1,0 +1,82 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper: check the caller is authenticated and owns the document
+    function isOwner() {
+      return request.auth != null && request.resource.data.userId == request.auth.uid;
+    }
+    function isReader(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    // Generic rule applied to every financial collection
+    function financialCollectionRules() {
+      return
+        // Read: user can only read their own data
+        (request.auth != null && resource.data.userId == request.auth.uid) ||
+        // Create: must provide userId matching the caller
+        (request.method == 'create' && isOwner()) ||
+        // Update/Delete: must own the document
+        (request.method in ['update', 'delete'] && isReader(resource.data.userId));
+    }
+
+    match /entradas/{id} {
+      allow read:   if request.auth != null && resource.data.userId == request.auth.uid;
+      allow create: if isOwner();
+      allow update, delete: if request.auth != null && resource.data.userId == request.auth.uid;
+    }
+
+    match /gastos/{id} {
+      allow read:   if request.auth != null && resource.data.userId == request.auth.uid;
+      allow create: if isOwner();
+      allow update, delete: if request.auth != null && resource.data.userId == request.auth.uid;
+    }
+
+    match /cartoes/{id} {
+      allow read:   if request.auth != null && resource.data.userId == request.auth.uid;
+      allow create: if isOwner();
+      allow update, delete: if request.auth != null && resource.data.userId == request.auth.uid;
+    }
+
+    match /parcelas/{id} {
+      allow read:   if request.auth != null && resource.data.userId == request.auth.uid;
+      allow create: if isOwner();
+      allow update, delete: if request.auth != null && resource.data.userId == request.auth.uid;
+    }
+
+    match /dividas/{id} {
+      allow read:   if request.auth != null && resource.data.userId == request.auth.uid;
+      allow create: if isOwner();
+      allow update, delete: if request.auth != null && resource.data.userId == request.auth.uid;
+    }
+
+    match /contas_fixas/{id} {
+      allow read:   if request.auth != null && resource.data.userId == request.auth.uid;
+      allow create: if isOwner();
+      allow update, delete: if request.auth != null && resource.data.userId == request.auth.uid;
+    }
+
+    match /metas/{id} {
+      allow read:   if request.auth != null && resource.data.userId == request.auth.uid;
+      allow create: if isOwner();
+      allow update, delete: if request.auth != null && resource.data.userId == request.auth.uid;
+    }
+
+    match /contas_bancarias/{id} {
+      allow read:   if request.auth != null && resource.data.userId == request.auth.uid;
+      allow create: if isOwner();
+      allow update, delete: if request.auth != null && resource.data.userId == request.auth.uid;
+    }
+
+    // Users collection (optional profile data)
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Deny everything else
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

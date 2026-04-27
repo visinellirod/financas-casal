@@ -43,7 +43,7 @@ function CartaoFormModal({
         vencimento:  Number(form.vencimento),
       })
       onClose()
-    } catch {
+    } catch (e) {
       setError('Erro ao salvar.')
     } finally {
       setLoading(false)
@@ -111,8 +111,8 @@ export default function CartaoCredito() {
         await addCartao(data)
         success('Cartão adicionado!')
       }
-    } catch {
-      error('Erro ao salvar cartão.')
+    } catch (e) {
+      error('Erro ao salvar cartão: ' + (e instanceof Error ? e.message : String(e)))
     }
   }
 
@@ -121,8 +121,8 @@ export default function CartaoCredito() {
     try {
       await removeCartao(deleting.id)
       success('Cartão removido.')
-    } catch {
-      error('Erro ao remover cartão.')
+    } catch (e) {
+      error('Erro ao remover cartão: ' + (e instanceof Error ? e.message : String(e)))
     }
   }
 

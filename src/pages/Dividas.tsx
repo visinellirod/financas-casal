@@ -47,7 +47,7 @@ function DividaFormModal({
         juros:         Number(form.juros),
       })
       onClose()
-    } catch {
+    } catch (e) {
       setError('Erro ao salvar.')
     } finally {
       setLoading(false)
@@ -136,8 +136,8 @@ export default function Dividas() {
         await addDivida(data)
         success('Dívida adicionada!')
       }
-    } catch {
-      error('Erro ao salvar dívida.')
+    } catch (e) {
+      error('Erro ao salvar dívida: ' + (e instanceof Error ? e.message : String(e)))
     }
   }
 
@@ -146,8 +146,8 @@ export default function Dividas() {
     try {
       await removeDivida(deleting.id)
       success('Dívida removida.')
-    } catch {
-      error('Erro ao remover dívida.')
+    } catch (e) {
+      error('Erro ao remover dívida: ' + (e instanceof Error ? e.message : String(e)))
     }
   }
 

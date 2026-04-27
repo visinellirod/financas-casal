@@ -145,8 +145,10 @@ export default function Parcelas() {
         await addParcela(data)
         success('Parcela adicionada!')
       }
-    } catch {
-      error('Erro ao salvar parcela.')
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e)
+      error('Erro ao salvar parcela: ' + msg)
+      console.error('[Parcelas] handleSave error:', e)
     }
   }
 

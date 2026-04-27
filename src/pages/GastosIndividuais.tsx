@@ -43,7 +43,7 @@ function GastoFormModal({
     try {
       await onSave({ ...form, valor: Number(form.valor) })
       onClose()
-    } catch {
+    } catch (e) {
       setError('Erro ao salvar.')
     } finally {
       setLoading(false)
@@ -127,8 +127,8 @@ export default function GastosIndividuais({ pessoa }: Props) {
         await addGasto({ ...data, pessoa })
         success('Gasto adicionado!')
       }
-    } catch {
-      error('Erro ao salvar gasto.')
+    } catch (e) {
+      error('Erro ao salvar gasto: ' + (e instanceof Error ? e.message : String(e)))
     }
   }
 
@@ -137,8 +137,8 @@ export default function GastosIndividuais({ pessoa }: Props) {
     try {
       await removeGasto(deleting.id)
       success('Gasto removido.')
-    } catch {
-      error('Erro ao remover gasto.')
+    } catch (e) {
+      error('Erro ao remover gasto: ' + (e instanceof Error ? e.message : String(e)))
     }
   }
 

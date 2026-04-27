@@ -46,7 +46,7 @@ function MetaFormModal({
         valorAtual: Number(form.valorAtual),
       })
       onClose()
-    } catch {
+    } catch (e) {
       setError('Erro ao salvar.')
     } finally {
       setLoading(false)
@@ -172,8 +172,8 @@ export default function Metas() {
         await addMeta(data)
         success('Meta adicionada!')
       }
-    } catch {
-      error('Erro ao salvar meta.')
+    } catch (e) {
+      error('Erro ao salvar meta: ' + (e instanceof Error ? e.message : String(e)))
     }
   }
 
@@ -182,8 +182,8 @@ export default function Metas() {
     try {
       await removeMeta(deleting.id)
       success('Meta removida.')
-    } catch {
-      error('Erro ao remover meta.')
+    } catch (e) {
+      error('Erro ao remover meta: ' + (e instanceof Error ? e.message : String(e)))
     }
   }
 
@@ -192,7 +192,7 @@ export default function Metas() {
     try {
       await updateMeta(depositMeta.id, { valorAtual: novoValor })
       success('Aporte registrado!')
-    } catch {
+    } catch (e) {
       error('Erro ao registrar aporte.')
     }
   }

@@ -37,7 +37,7 @@ function ContaFormModal({
     try {
       await onSave({ ...form, saldo: Number(form.saldo) })
       onClose()
-    } catch {
+    } catch (e) {
       setError('Erro ao salvar.')
     } finally {
       setLoading(false)
@@ -112,8 +112,8 @@ export default function ContasBancarias() {
         await addConta(data)
         success('Conta adicionada!')
       }
-    } catch {
-      error('Erro ao salvar conta.')
+    } catch (e) {
+      error('Erro ao salvar conta: ' + (e instanceof Error ? e.message : String(e)))
     }
   }
 
@@ -122,8 +122,8 @@ export default function ContasBancarias() {
     try {
       await removeConta(deleting.id)
       success('Conta removida.')
-    } catch {
-      error('Erro ao remover conta.')
+    } catch (e) {
+      error('Erro ao remover conta: ' + (e instanceof Error ? e.message : String(e)))
     }
   }
 

@@ -36,7 +36,7 @@ function GastoFormModal({ initial = {}, cartoes, onSave, onClose }: FormProps) {
     try {
       await onSave({ ...form, valor: Number(form.valor) })
       onClose()
-    } catch {
+    } catch (e) {
       setError('Erro ao salvar. Tente novamente.')
     } finally {
       setLoading(false)
@@ -122,8 +122,8 @@ export default function Gastos() {
         await addGasto(data)
         success('Gasto adicionado!')
       }
-    } catch {
-      error('Erro ao salvar gasto.')
+    } catch (e) {
+      error('Erro ao salvar gasto: ' + (e instanceof Error ? e.message : String(e)))
     }
   }
 
@@ -132,8 +132,8 @@ export default function Gastos() {
     try {
       await removeGasto(deleting.id)
       success('Gasto removido.')
-    } catch {
-      error('Erro ao remover gasto.')
+    } catch (e) {
+      error('Erro ao remover gasto: ' + (e instanceof Error ? e.message : String(e)))
     }
   }
 

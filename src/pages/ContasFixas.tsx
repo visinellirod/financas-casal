@@ -37,7 +37,7 @@ function ContaFixaFormModal({
     try {
       await onSave({ ...form, valor: Number(form.valor), diaVencimento: Number(form.diaVencimento) })
       onClose()
-    } catch {
+    } catch (e) {
       setError('Erro ao salvar.')
     } finally {
       setLoading(false)
@@ -102,8 +102,8 @@ export default function ContasFixas() {
         await addContaFixa(data)
         success('Conta fixa adicionada!')
       }
-    } catch {
-      error('Erro ao salvar conta fixa.')
+    } catch (e) {
+      error('Erro ao salvar conta fixa: ' + (e instanceof Error ? e.message : String(e)))
     }
   }
 
@@ -112,8 +112,8 @@ export default function ContasFixas() {
     try {
       await removeContaFixa(deleting.id)
       success('Conta fixa removida.')
-    } catch {
-      error('Erro ao remover conta fixa.')
+    } catch (e) {
+      error('Erro ao remover conta fixa: ' + (e instanceof Error ? e.message : String(e)))
     }
   }
 
@@ -121,8 +121,8 @@ export default function ContasFixas() {
     try {
       await updateContaFixa(c.id, { paga: !c.paga })
       success(c.paga ? 'Marcada como pendente.' : 'Marcada como paga!')
-    } catch {
-      error('Erro ao atualizar.')
+    } catch (e) {
+      error('Erro ao atualizar: ' + (e instanceof Error ? e.message : String(e)))
     }
   }
 

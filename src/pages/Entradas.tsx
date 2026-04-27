@@ -35,7 +35,7 @@ function EntradaFormModal({ initial = {}, onSave, onClose }: FormProps) {
     try {
       await onSave({ ...form, valor: Number(form.valor) })
       onClose()
-    } catch {
+    } catch (e) {
       setError('Erro ao salvar. Tente novamente.')
     } finally {
       setLoading(false)
@@ -105,8 +105,8 @@ export default function Entradas() {
         await addEntrada(data)
         success('Entrada adicionada com sucesso!')
       }
-    } catch {
-      error('Erro ao salvar entrada.')
+    } catch (e) {
+      error('Erro ao salvar entrada: ' + (e instanceof Error ? e.message : String(e)))
     }
   }
 
@@ -115,8 +115,8 @@ export default function Entradas() {
     try {
       await removeEntrada(deleting.id)
       success('Entrada removida.')
-    } catch {
-      error('Erro ao remover entrada.')
+    } catch (e) {
+      error('Erro ao remover entrada: ' + (e instanceof Error ? e.message : String(e)))
     }
   }
 

@@ -119,7 +119,11 @@ export default function ContasFixas() {
 
   async function togglePaga(c: ContaFixa) {
     try {
-      await updateContaFixa(c.id, { paga: !c.paga })
+      const mesAtual = new Date().toISOString().slice(0, 7)
+      await updateContaFixa(c.id, {
+        paga: !c.paga,
+        mesReferencia: !c.paga ? mesAtual : c.mesReferencia,
+      })
       success(c.paga ? 'Marcada como pendente.' : 'Marcada como paga!')
     } catch (e) {
       error('Erro ao atualizar: ' + (e instanceof Error ? e.message : String(e)))

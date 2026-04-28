@@ -91,6 +91,7 @@ export interface ContaFixa extends BaseDoc {
   categoria: string
   paga: boolean
   pessoa: string
+  mesReferencia?: string // formato: "YYYY-MM", usado para reset automático mensal
 }
 
 export type ContaFixaForm = Omit<ContaFixa, keyof BaseDoc>

@@ -66,6 +66,27 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
   const totalContasFixas = useMemo(() => contasFixas.filter(c => !c.paga).reduce((s, c) => s + (c.valor || 0), 0), [contasFixas])
   const saldoTotal       = useMemo(() => totalEntradas - totalGastos - totalParcelas, [totalEntradas, totalGastos, totalParcelas])
 
+  // ── Reset automático mensal das contas fixas ───────────────────────────────
+  useEffect(() => {
+    if (!uid || contasFixas.length === 0 || loadingContasFixas) return
+
+    const mesAtual = new Date().toISOString().slice(0, 7) // "YYYY-MM"
+
+    const contasParaResetar = contasFixas.filter(
+      c => c.paga && c.mesReferencia !== mesAtual
+    )
+
+    if (contasParaResetar.length === 0) return
+
+    // Reseta todas as contas pagas que ainda não foram resetadas neste mês
+    contasParaResetar.forEach(c => {
+      fsUpdate(COLS.contasFixas, c.id, {
+        paga: false,
+        mesReferencia: mesAtual,
+      })
+    })
+  }, [uid, contasFixas, loadingContasFixas])
+
   // ── Factory de CRUD ────────────────────────────────────────────────────────
   const add    = useCallback(<T extends Record<string, unknown>>(col: string, data: T) =>
     fsAdd(col, uid!, data as Record<string, unknown>), [uid])
